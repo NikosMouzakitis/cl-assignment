@@ -1,0 +1,14 @@
+Inside rpmbuild/SOURCES
+curl -L -o 80e648042e512d5a767da251d44132553fe04ae0.patch  "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/patch/?id=80e648042e512d5a767da251d44132553fe04ae0"
+
+curl -L -o f90fff1e152dedf52b932240ebbd670d83330eca.patch  "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/patch/?id=f90fff1e152dedf52b932240ebbd670d83330eca"
+
+
+
+Patch1000000: 80e648042e512d5a767da251d44132553fe04ae0.patch
+Patch1000001: f90fff1e152dedf52b932240ebbd670d83330eca.patch
+
+
+kai 
+ApplyPatch 80e648042e512d5a767da251d44132553fe04ae0.patch
+ApplyPatch f90fff1e152dedf52b932240ebbd670d83330eca.patch
