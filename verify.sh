@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # the directory with the patched_rpms
-RPM_DIR="${RPM_DIR:-./patch_test2}"
+RPM_DIR="${RPM_DIR:-./patched_rpms}"
 # do extraction here.
 WORKDIR="${WORKDIR:-./_debug_extract}"
 
