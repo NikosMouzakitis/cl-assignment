@@ -1,9 +1,9 @@
 # cl-assignment
 
-##########################################################################################################################################
+ 
 ##	Task1 Manual set up of docker and 
-#	manual-instructions inside container
-##########################################################################################################################################
+
+ 
 	
 	#Docker script execute with shared folder to "extract" artifacts-rpms.
 	docker run -it --rm \
@@ -11,7 +11,7 @@
 	  -v "$PWD:/work" \   #visible in container under /work
 	  stream8-kernel-builder \
 	  /bin/bash
-
+#	manual-instructions inside container
 	#once on the Docker VM.
 	[root@764ba3dcf6c8 work]# history
 	      cd /work/
@@ -26,9 +26,9 @@
 	      cp -av /root/rpmbuild/RPMS/x86_64/* /work/out/rpms/   
 
 
-##########################################################################################################################################
-##task2 Golang automation for creation of RPMs.
-##########################################################################################################################################
+ 
+## task2 Golang automation for creation of RPMs.
+ 
     mkdir cmd
     vi cmd/main.go
     mkdir -p cmd/build-stream8-kernel
@@ -36,15 +36,15 @@
     go build -o build-stream8-kernel ./cmd/build-stream8-kernel
     mkdir -p out_go_test
 	##example using the vanilla src.rpm and output on out_go_test directory.
-   ./build-stream8-kernel ./kernel-4.18.0-448.el8.src.rpm ./out_go_test/
+    ./build-stream8-kernel ./kernel-4.18.0-448.el8.src.rpm ./out_go_test/
 	#example usage using the same srpm but from provided URL
     mkdir -p out_go_url
-   ./build-stream8-kernel  "https://vault.centos.org/8-stream/BaseOS/Source/SPackages/kernel-4.18.0-448.el8.src.rpm" ./out_go_url
+    ./build-stream8-kernel  "https://vault.centos.org/8-stream/BaseOS/Source/SPackages/kernel-4.18.0-448.el8.src.rpm" ./out_go_url
 
-##########################################################################################################################################
-##Task3 Patches application using the Go tool.
-#Task3 produces only a patched SRPM using rpmbuild -bs. Binary RPMs are generated later exclusively via the Go automation tool.
-##########################################################################################################################################
+ 
+## Task3 Patches application using the Go tool.
+ Task3 produces only a patched SRPM using rpmbuild -bs. Binary RPMs are generated later exclusively via the Go automation tool.
+ 
 	#run container and prepare SPRM
 	rpm -ivh kernel-4.18.0-448.el8.src.rpm 
 	dnf -y builddep /root/rpmbuild/SPECS/kernel.spec
@@ -98,10 +98,12 @@
 	./build-stream8-kernel kernel-4.18.0-448.el8.patchedTASK3.src.rpm patched_rpms
 	
 
-	# optional-add on for verification.
-	# after tool finishes we can run verify to inspect
-	# source code via GDB 
-	#.e,g. list run_posix_cpu_timers or list mac_partition
-	# and inspect inside the source code that changes are applied.	
+# optional-add on (shell script) for verification.
+ After tool finishes we can run verify to inspect
+ source code via GDB 
+ .e,g. list run_posix_cpu_timers or list mac_partition
+ and inspect inside the source code that changes are applied.	
+	
 	./verify.sh
+
 
