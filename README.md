@@ -106,4 +106,6 @@
 	
 	./verify.sh
 
-
+  
+  We can see our patched function code in the following figure.
+  ![img](https://github.com/NikosMouzakitis/cl-assignment/blob/main/png/verification.png)
