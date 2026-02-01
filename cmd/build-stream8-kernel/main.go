@@ -12,7 +12,7 @@ import (
 	"strings"
 )
 
-const imageTag = "stream8-kernel-builder:local"
+const imageTag = "stream8-kernel-builder"
 
 func usage() {
 	fmt.Fprintf(os.Stderr, "Usage: build-stream8-kernel <src.rpm|url> <outfolder>\n")
