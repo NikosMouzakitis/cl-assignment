@@ -102,3 +102,4 @@
 	#.e,g. list run_posix_cpu_timers or list mac_partition
 	# and inspect inside the source code that changes are applied.	
 	./verify.sh
+
