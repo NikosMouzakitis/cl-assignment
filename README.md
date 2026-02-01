@@ -1,9 +1,11 @@
 # cl-assignment
 
  
-##	Task1 Manual set up of docker and 
+##	Task1 Manual set up of docker and run container
 
- 
+    #create/write the Dockerfile
+    vi Dockerfile 
+    docker build -t stream8-kernel-builder . 
 	
 	#Docker script execute with shared folder to "extract" artifacts-rpms.
 	docker run -it --rm \
@@ -11,6 +13,7 @@
 	  -v "$PWD:/work" \   #visible in container under /work
 	  stream8-kernel-builder \
 	  /bin/bash
+
 ##	manual-instructions inside container  
 
 	#once on the Docker VM.
@@ -48,6 +51,9 @@ Change permissions to user's on host:
     mkdir -p out_go_url
     ./build-stream8-kernel  "https://vault.centos.org/8-stream/BaseOS/Source/SPackages/kernel-4.18.0-448.el8.src.rpm" ./out_go_url
 
+
+    We test the tool two times one by passing a src.rpm file and one by using a url link. Output is generated
+    by the tool on the passed as argument output directories.
  
 ## Task3 Patches application using the Go tool.
  Task3 produces only a patched SRPM using rpmbuild -bs. Binary RPMs are generated later exclusively via the Go automation tool.
@@ -109,6 +115,12 @@ Change permissions to user's on host:
 	#then use the Go tool to produce in patched_rpms folder the binaries.
 	./build-stream8-kernel kernel-4.18.0-448.el8.patchedTASK3.src.rpm patched_rpms
 	
+
+
+# Addressing where generated RPMs are exported.
+
+They can always be found in the container in /root/rpmbuild/RPMS and then
+if we desire we can copy them via a shared folder to local host machine.
 
 # optional-add on (shell script) for verification.
  After tool finishes we can run verify to inspect
