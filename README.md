@@ -109,7 +109,7 @@ Change permissions to user's on host:
     
     cd /root/rpmbuild
 	#getting the SRPM
-	rpmbuild --bs ~/rpmbuild/SPECS/kernel.spec --define "buildid .patchedTASK3"
+	rpmbuild -bs ~/rpmbuild/SPECS/kernel.spec --define "buildid .patchedTASK3"
 	cp ~/rpmbuild/SRPMS/kernel-4.18.0-448.el8.patchedTASK3.src.rpm /work
 
 	#then use the Go tool to produce in patched_rpms folder the binaries.
