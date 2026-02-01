@@ -11,10 +11,12 @@
 	  -v "$PWD:/work" \   #visible in container under /work
 	  stream8-kernel-builder \
 	  /bin/bash
-#	manual-instructions inside container
+##	manual-instructions inside container  
+
 	#once on the Docker VM.
 	[root@764ba3dcf6c8 work]# history
 	      cd /work/
+          rpmdev-setuptree
 	      rpm -ivh kernel-4.18.0-448.el8.src.rpm 
 	      dnf -y builddep /root/rpmbuild/SPECS/kernel.spec
 	      rpmbuild -bb /root/rpmbuild/SPECS/kernel.spec
@@ -25,6 +27,11 @@
 		#move to host.
 	      cp -av /root/rpmbuild/RPMS/x86_64/* /work/out/rpms/   
 
+After completion we have the RPMs copied back to the host machine in $PWD/out/rpms.
+
+Change permissions to user's on host:
+
+	sudo chown -R $(id -u):$(id -g) out/rpms
 
  
 ## task2 Golang automation for creation of RPMs.
@@ -46,6 +53,7 @@
  Task3 produces only a patched SRPM using rpmbuild -bs. Binary RPMs are generated later exclusively via the Go automation tool.
  
 	#run container and prepare SPRM
+    rpmdev-setuptree
 	rpm -ivh kernel-4.18.0-448.el8.src.rpm 
 	dnf -y builddep /root/rpmbuild/SPECS/kernel.spec
 	cd /root/rpmbuild/SOURCES
@@ -65,7 +73,10 @@
 	## then:: 
 
 	rpmbuild -bb /root/rpmbuild/SPECS/kernel.spec  # this will fail with error.
-	#previous fails, created BUILD/kernel sources
+	#previous fails, 
+    #since rpmbuild -bb failed we use the resulting BUILD tree to edit and regenerate the patch
+
+    cd /root/rpmbuild/BUILD/kernel-4.18.0-448.el8/linux-4.18.0-448.el8.x86_64
 	git init  > /dev/null 
 	git add -A
 	git commit -m baseline > /dev/null
@@ -88,8 +99,9 @@
 			 * group timers.  If that's so, just return.
 	
 
-	git diff > ~/rpmbuild/SOURCES/f90fff1e152dedf52b932240ebbd670d83330eca.patch ##rewrite it to work
-
+	git diff > ~/rpmbuild/SOURCES/f90fff1e152dedf52b932240ebbd670d83330eca.patch ##overwrite it to work
+    
+    cd /root/rpmbuild
 	#getting the SRPM
 	rpmbuild --bs ~/rpmbuild/SPECS/kernel.spec --define "buildid .patchedTASK3"
 	cp ~/rpmbuild/SRPMS/kernel-4.18.0-448.el8.patchedTASK3.src.rpm /work
@@ -109,3 +121,4 @@
   
   We can see our patched function code in the following figure.
   ![img](https://github.com/NikosMouzakitis/cl-assignment/blob/main/png/verification.png)
+
